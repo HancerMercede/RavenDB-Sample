@@ -1,8 +1,5 @@
 ﻿using Rvn.Ch02;
-using System;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-
+using static System.Console;
 
 //using (var session = DocumentStoreHolder.Store.OpenSession())
 //{
@@ -33,24 +30,24 @@ using System.Security.Cryptography.X509Certificates;
 
 int opc = 0;
 var Tasks = new ToDoTask();
-Console.WriteLine("Orgnazing your days app..");
+WriteLine("Orgnazing your days app..");
 do
 {
 
-    Console.WriteLine("Select your opctions.");
-    Console.WriteLine("Opction 1 : create a new task.");
-    Console.WriteLine("Opction 2 : get by Id to complete: ");
-
+    WriteLine("Select your opctions.");
+    WriteLine("Opction 1 : create a new task.");
+    WriteLine("Opction 2 : get by Id to complete.");
+    WriteLine("Opction 3 : delete a task.");
     opc = int.Parse(Console.ReadLine()!);
     switch (opc)
     {
         case 1:
             {
-                Console.Write("Write your task: ");
+                Write("Write your task: ");
                 var task = Console.ReadLine();
 
-                Console.WriteLine("Date for the task? ");
-                var date = Convert.ToDateTime(Console.ReadLine());
+                WriteLine("Date for the task? ");
+                var date = Convert.ToDateTime(ReadLine());
 
                 
 
@@ -79,6 +76,23 @@ do
                 }
                 break;
             }
+        case 3:
+            {
+                Console.WriteLine("Write the id: ");
+                var id = Console.ReadLine()!;
+                Tasks.Id = id;
+
+                using (var session = DocumentStoreHolder._store.OpenSession())
+                {
+
+                    session.Delete(Tasks.Id);
+                    session.SaveChanges();
+                    WriteLine($"The task with id:{Tasks.Id} was deleted successfuly.");
+                }
+
+            }
+            break;
+
     }
 
 
